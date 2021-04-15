@@ -16,8 +16,8 @@ if(process.env.NODE_ENV==='development'){
 const PORT=process.env.PORT || 5000
 
 app.use('/api/products',productRoutes)
-app.use(notFound)
-app.use(errorHandler)
+// app.use(notFound)
+// app.use(errorHandler)
 
 
 app.listen(PORT,()=>{console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`.yellow.bold)})
