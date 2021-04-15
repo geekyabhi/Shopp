@@ -1,15 +1,36 @@
-import React from 'react'
-import { Col, Row,Image,Card,Button,CardList, ListGroup } from 'react-bootstrap'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Col, Row,Image,Card,Button,CardList, ListGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import products from '../products'
+import Spinner from '../components/Spinner'
+// import products from '../products'
 import Ratings from '../components/Ratings'
 
 const ProductScreens = ({match}) => {
 
-    const product=products.find(p=>p._id===match.params.id)
+    const [product, setProduct] = useState([])
+    const [loading, setloading] = useState(false)
+    useEffect(() => {
+        const fetchProducts=async ()=>{
+            setloading(true)
+            const {data}=await axios.get(`/api/products/${match.params.id}`)
+            setProduct(data)
+            setloading(false)
+        }
+        fetchProducts()
+    }, [])
 
-    return (
+
+    // const product=products.find(p=>p._id===match.params.id)
+    return loading?
+    (
         <>
+            <Link className="btn btn-light my-3" to="/">Go back</Link>
+            <Spinner></Spinner>
+        </>
+    ):
+    (
+        <div>
             <Link className="btn btn-light my-3" to="/">Go back</Link>
             <Row>
                 <Col md={6}>
@@ -66,7 +87,7 @@ const ProductScreens = ({match}) => {
                     </Card>
                 </Col>
             </Row>
-        </>
+        </div>
     )
 }
 
