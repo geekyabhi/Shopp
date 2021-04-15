@@ -5,12 +5,15 @@ require('dotenv').config()
 
 const connectDB =require('./db/mongoose')
 const productRoutes=require('./routes/productRoutes')
+const {errorHandler,notFound}=require('./middleware/errorMiddleware')
 
 const app=express()
 connectDB()
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev'))
 }
+app.use(notFound)
+app.use(errorHandler)
 
 const PORT=process.env.PORT || 5000
 
