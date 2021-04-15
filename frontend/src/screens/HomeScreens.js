@@ -1,41 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import axios from 'axios'
+import {useDispatch,useSelector} from 'react-redux'
+import { listProducts }  from '../actions/productActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import Product from '../components/Product'
-import Spinner from '../components/Spinner'
 // import products from '../products'
 const HomeScreens = () => {
 
-    const [products, setProducts] = useState([])
-    const [loading, setloading] = useState(false)
+    const dispatch = useDispatch()
+
+    const productList =useSelector(state=>state.productList)
+
+    const {loading,error,products}=productList
+
     useEffect(() => {
-        const fetchProducts=async ()=>{
-            setloading(true)
-            const {data}=await axios.get('/api/products')
-            setProducts(data)
-            setloading(false)
-        }
-        fetchProducts()
-    }, [])
+        dispatch(listProducts())
+    }, [dispatch])
 
     return loading ?(
         <>
             <h1>Latest Products</h1>
-            <Spinner></Spinner>
+            <Loader></Loader>
         </>
         )
         : 
-    (
-        <>  
-            <Row>
-                {products.map(product=>(
-                    <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                        <Product product={product}></Product>
-                    </Col>
-                ))}
-            </Row> 
-        </>
-    )
+        error ?(
+            <Message variant="danger">{error}</Message> 
+        ):
+        (
+            <h3>  
+                <Row>
+                    {products.map(product=>(
+                        <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                            <Product product={product}></Product>
+                        </Col>
+                    ))}
+                </Row> 
+            </h3>
+        )
 }
 
 export default HomeScreens

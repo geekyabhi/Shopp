@@ -1,24 +1,21 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
+import {useDispatch,useSelector} from 'react-redux'
+import { listProductDetails }  from '../actions/productActions'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import { Col, Row,Image,Card,Button, ListGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import Spinner from '../components/Spinner'
-// import products from '../products'
 import Ratings from '../components/Ratings'
-
 const ProductScreens = ({match}) => {
 
-    const [product, setProduct] = useState([])
-    const [loading, setloading] = useState(false)
+    const dispatch = useDispatch()
+    const productDetails = useSelector(state => state.productDetails)
+
+    const {product,error,loading}=productDetails
+
     useEffect(() => {
-        const fetchProducts=async ()=>{
-            setloading(true)
-            const {data}=await axios.get(`/api/products/${match.params.id}`)
-            setProduct(data)
-            setloading(false)
-        }
-        fetchProducts()
-    }, [match])
+        dispatch(listProductDetails(match.params.id))
+    }, [dispatch,match])
 
 
     // const product=products.find(p=>p._id===match.params.id)
@@ -26,7 +23,13 @@ const ProductScreens = ({match}) => {
     (
         <>
             <Link className="btn btn-light my-3" to="/">Go back</Link>
-            <Spinner></Spinner>
+            <Loader></Loader>
+        </>
+    ): 
+    error ?(
+        <>
+        <Link className="btn btn-light my-3" to="/">Go back</Link>
+        <Message variant="danger">{error}</Message> 
         </>
     ):
     (
