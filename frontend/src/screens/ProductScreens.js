@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Col, Row,Image,Card,Button,CardList, ListGroup} from 'react-bootstrap'
+import { Col, Row,Image,Card,Button, ListGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 // import products from '../products'
@@ -18,7 +18,7 @@ const ProductScreens = ({match}) => {
             setloading(false)
         }
         fetchProducts()
-    }, [])
+    }, [match])
 
 
     // const product=products.find(p=>p._id===match.params.id)
