@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect} from 'react'
 import {Button,Col,Row,Image,Card,ListGroup} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import CheckoutSteps from '../components/CheckoutSteps'
@@ -10,13 +10,17 @@ const PlaceorderScreen = ({history}) => {
 
     const cart=useSelector(state=>state.cart)
     const orderCreate=useSelector(state=>state.orderCreate)
-
     const {order,success,error}=orderCreate
+
+    // console.log(order)
+
+    // console.log(success)
 
     useEffect(() => {
         if(success){
-            history.pushState(`/orders/${order._id}`)
+            history.push(`/orders/${order._id}`)
         }
+        // eslint-disable-next-line
     }, [history,success])
 
     const dispatch=useDispatch()
@@ -29,7 +33,7 @@ const PlaceorderScreen = ({history}) => {
     cart.shippingPrice=addDecimals(cart.itemsPrice>100?0:100) 
     cart.taxPrice=addDecimals(Number((0.15*cart.itemsPrice).toFixed(2)))
 
-    cart.totalPrice=(Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.taxPrice))
+    cart.totalPrice=addDecimals(Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.taxPrice))
 
     // console.log(cart)
 
@@ -43,9 +47,8 @@ const PlaceorderScreen = ({history}) => {
         totalPrice:cart.totalPrice,
     }
 
-    console.log(obj)
-
     const placeOrderHandler=()=>{
+        // console.log('Button clicked')
         dispatch(createOrder(obj))
     }
 
