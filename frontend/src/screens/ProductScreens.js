@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import { listProductDetails,createProductReview, createProduct }  from '../actions/productActions'
+import { listProductDetails,createProductReview }  from '../actions/productActions'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { Col, Row,Image,Card,Button, ListGroup, Form} from 'react-bootstrap'

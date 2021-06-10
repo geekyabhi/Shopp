@@ -3,7 +3,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import {Container,Nav,Navbar, NavDropdown} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import { logout } from '../actions/userActions'
-import { Route, useHistory } from 'react-router'
+import { useHistory } from 'react-router'
 import SearchBox from './SearchBox'
 
 const Header = () => {
