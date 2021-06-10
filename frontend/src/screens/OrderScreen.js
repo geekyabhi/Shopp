@@ -5,18 +5,24 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
-import { getOrderDetails, payOrder } from '../actions/orderActions'
-import {ORDER_PAY_RESET} from '../constants/orderConstants'
+import { deliverOrder, getOrderDetails, payOrder } from '../actions/orderActions'
+import {ORDER_PAY_RESET,ORDER_DELIVER_RESET} from '../constants/orderConstants'
 
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match,history}) => {
 
     const orderId=match.params.id
+
+    const userLogin=useSelector(state=>state.userLogin)
+    const {userInfo}=userLogin
 
     const orderDetails=useSelector(state=>state.orderDetails)
     const {order,loading,error}=orderDetails
 
     const orderPay=useSelector(state=>state.orderPay)
     const {success:successPay}=orderPay
+
+    const orderDeliver=useSelector(state=>state.orderDeliver)
+    const {loading:loadingDeliver,success:successDeliver}=orderDeliver
 
     const dispatch=useDispatch()
 
@@ -59,7 +65,14 @@ const OrderScreen = ({match}) => {
         rzp1.open()
     }
 
+    const deliverHandler=()=>{
+        dispatch(deliverOrder(order))
+    }
+
     useEffect(() => {
+        if(!userInfo){
+            history.push('/login')
+        }
 
         const loadKey=async ()=>{
             const {data:clientID}=await axios.get('/api/config/razorpay')
@@ -77,15 +90,16 @@ const OrderScreen = ({match}) => {
             }
             document.body.appendChild(script)
         }
-        if(!order || successPay){
+        if(!order || successPay ||successDeliver){
             dispatch({type:ORDER_PAY_RESET})
+            dispatch({type:ORDER_DELIVER_RESET})
             dispatch(getOrderDetails(orderId))
         }else if(!order.isPaid){
             addRazorPayScript()
             setSDKReady(true)
         }
-
-    }, [successPay,orderId,order,dispatch])
+        //eslint-disable-next-line
+    }, [successPay,orderId,order,dispatch,successDeliver])
     return loading?<Loader></Loader>:error?<Message variant="danger">{error}</Message>:
     <>
         <Row>
@@ -176,6 +190,14 @@ const OrderScreen = ({match}) => {
                                     {!SDKReady?<Loader></Loader>:(
                                         <Button onClick={makePayment}>Pay</Button>
                                     )}
+                                </ListGroup.Item>
+                            )
+                        }
+                        {loadingDeliver && <Loader></Loader>}
+                        {
+                            userInfo&&userInfo.isAdmin && order.isPaid && !order.isDelivered &&(
+                                <ListGroup.Item>
+                                    <Button type="button" className="btn btn-block" onClick={deliverHandler}>Mark as Deliver</Button>
                                 </ListGroup.Item>
                             )
                         }

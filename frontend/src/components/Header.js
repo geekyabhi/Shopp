@@ -10,7 +10,7 @@ const Header = () => {
     const history=useHistory()
     const dispatch=useDispatch()
     const userLogin=useSelector(state=>state.userLogin)
-    console.log(userLogin)
+    // console.log(userLogin)
     const {userInfo}=userLogin
 
     
