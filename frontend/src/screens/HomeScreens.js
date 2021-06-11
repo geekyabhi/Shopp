@@ -22,6 +22,7 @@ const HomeScreens = ({match}) => {
 
     const {loading,error,products,page,pages}=productList
 
+    console.log(products)
     useEffect(() => {
         dispatch(listProducts(keyword,pageNumber))
     }, [dispatch,keyword,pageNumber])
