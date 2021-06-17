@@ -7,6 +7,7 @@ import axios from 'axios'
 import {Link} from 'react-router-dom'
 import { deliverOrder, getOrderDetails, payOrder } from '../actions/orderActions'
 import {ORDER_PAY_RESET,ORDER_DELIVER_RESET} from '../constants/orderConstants'
+import razorPayButton from '../images/razorpay.jpeg'
 
 const OrderScreen = ({match,history}) => {
 
@@ -188,7 +189,9 @@ const OrderScreen = ({match,history}) => {
                                 <ListGroup.Item>
                                     {/* {!loadingPay &&<Loader></Loader>} */}
                                     {!SDKReady?<Loader></Loader>:(
-                                        <Button onClick={makePayment}>Pay</Button>
+                                        // <Button onClick={makePayment}>
+                                            <Image src={razorPayButton} fluid onClick={makePayment} style={{cursor:'pointer'}}></Image>
+                                        // </Button>
                                     )}
                                 </ListGroup.Item>
                             )
