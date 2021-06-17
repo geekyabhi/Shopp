@@ -143,7 +143,7 @@ const OrderScreen = ({match,history}) => {
                                                 <Link to={`/product/${item.product}`}>{item.name}</Link>
                                             </Col>
                                             <Col md={4}>
-                                                {item.qty} X ${item.price} = ${item.qty*item.price}
+                                                {item.qty} X Rs {item.price} = Rs {item.qty*item.price}
                                             </Col>
                                         </Row>
                                     </ListGroup.Item>
@@ -162,25 +162,25 @@ const OrderScreen = ({match,history}) => {
                         <ListGroup.Item>
                             <Row>
                                 <Col>Items</Col>
-                                <Col>${order.itemsPrice}</Col>
+                                <Col>Rs {order.itemsPrice}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
                                 <Col>Shipping</Col>
-                                <Col>${order.shippingPrice}</Col>
+                                <Col>Rs {order.shippingPrice}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
                                 <Col>Tax</Col>
-                                <Col>${order.taxPrice}</Col>
+                                <Col>Rs {order.taxPrice}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
                                 <Col>Total</Col>
-                                <Col>${order.totalPrice}</Col>
+                                <Col>Rs {order.totalPrice}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>{error?<Message variant="danger"></Message>:null}</ListGroup.Item>
