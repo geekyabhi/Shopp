@@ -1,7 +1,7 @@
 const User =require('../models/userModel')
 const asyncHandler=require('express-async-handler')
 const generateToken = require('../utils/generateToken')
-const sendEmail = require('../email/email')
+const sendEmail = require('../../../Proshop-Backend-Deploy/backend/email/email')
 
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body

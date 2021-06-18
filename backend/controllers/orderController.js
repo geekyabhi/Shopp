@@ -1,7 +1,7 @@
 const Order =require('../models/orderModel')
 const asyncHandler=require('express-async-handler')
 const Razorpay=require('razorpay')
-const sendEmail = require('../email/email')
+const sendEmail = require('../../../Proshop-Backend-Deploy/backend/email/email')
 
 const razorpay=new Razorpay({
     key_id:process.env.RAZORPAY_KEY_ID,
